@@ -1,0 +1,59 @@
+{
+  "name": "digital-psychological-intervention-system",
+  "version": "1.0.0",
+  "description": "Production-ready Digital Psychological Intervention System with AI First-Aid chat, screening tools, and admin panel",
+  "main": "server/index.js",
+  "scripts": {
+    "start": "node server/index.js",
+    "dev": "nodemon server/index.js",
+    "prisma:generate": "prisma generate",
+    "prisma:migrate": "prisma migrate dev",
+    "prisma:seed": "node prisma/seed.js",
+    "prisma:studio": "prisma studio",
+    "test": "jest",
+    "test:watch": "jest --watch",
+    "test:coverage": "jest --coverage",
+    "setup": "npm install && npm run prisma:generate && npm run prisma:migrate && npm run prisma:seed"
+  },
+  "keywords": [
+    "mental-health",
+    "psychological-intervention",
+    "screening-tools",
+    "first-aid-chat",
+    "peer-support",
+    "booking-system"
+  ],
+  "author": "Digital Health Team",
+  "license": "MIT",
+  "dependencies": {
+    "@prisma/client": "^5.19.1",
+    "bcrypt": "^5.1.1",
+    "compression": "^1.7.4",
+    "cookie-parser": "^1.4.6",
+    "cors": "^2.8.5",
+    "express": "^4.19.2",
+    "express-rate-limit": "^7.4.0",
+    "helmet": "^7.1.0",
+    "joi": "^17.13.3",
+    "jsonwebtoken": "^9.0.2",
+    "multer": "^1.4.5-lts.1",
+    "nodemailer": "^6.9.14",
+    "prisma": "^5.19.1",
+    "sanitize-html": "^2.13.0",
+    "uuid": "^10.0.0"
+  },
+  "devDependencies": {
+    "jest": "^29.7.0",
+    "nodemon": "^3.1.4",
+    "supertest": "^7.0.0"
+  },
+  "jest": {
+    "testEnvironment": "node",
+    "coverageDirectory": "coverage",
+    "collectCoverageFrom": [
+      "server/**/*.js",
+      "!server/index.js",
+      "!server/config/*.js"
+    ]
+  }
+}
