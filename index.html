@@ -1,0 +1,243 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Digital Psychological Intervention System - Production Demo</title>
+    <meta name="description" content="Production-ready mental health platform with AI-powered features">
+    <style>
+        * { box-sizing: border-box; margin: 0; padding: 0; }
+        body { font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif; line-height: 1.6; color: #333; background: #f8fafc; }
+        .banner { background: linear-gradient(135deg, #667eea 0%, #764ba2 100%); color: white; padding: 2rem; text-align: center; }
+        .container { max-width: 1200px; margin: 0 auto; padding: 2rem 1rem; }
+        .section { background: white; margin: 2rem 0; padding: 2rem; border-radius: 12px; box-shadow: 0 4px 12px rgba(0,0,0,0.1); }
+        .grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 1.5rem; margin: 2rem 0; }
+        .card { background: #f8fafc; padding: 1.5rem; border-radius: 8px; border: 1px solid #e2e8f0; transition: transform 0.2s; }
+        .card:hover { transform: translateY(-2px); }
+        .card h4 { color: #2563eb; margin-bottom: 0.5rem; font-size: 1.2rem; }
+        h1 { font-size: 3rem; margin-bottom: 1rem; }
+        h2 { color: #2563eb; margin-bottom: 1.5rem; border-bottom: 3px solid #e2e8f0; padding-bottom: 0.5rem; }
+        h3 { color: #374151; margin: 1.5rem 0 1rem 0; }
+        .cta { display: inline-block; background: #2563eb; color: white; padding: 1rem 2rem; text-decoration: none; border-radius: 8px; font-weight: bold; margin: 1rem 0; transition: background 0.3s; }
+        .cta:hover { background: #1d4ed8; }
+        ul { padding-left: 1.5rem; } 
+        li { margin-bottom: 0.5rem; }
+        .code { background: #1e293b; color: #e2e8f0; padding: 1.5rem; border-radius: 8px; font-family: 'Courier New', monospace; overflow-x: auto; margin: 1rem 0; }
+        .highlight { background: #dbeafe; padding: 0.2rem 0.4rem; border-radius: 4px; font-family: 'Courier New', monospace; font-weight: bold; }
+        .alert { background: #fee2e2; border: 1px solid #fca5a5; padding: 1.5rem; border-radius: 8px; margin: 1rem 0; }
+        .footer { background: #f1f5f9; padding: 3rem; text-align: center; border-top: 1px solid #e2e8f0; margin-top: 3rem; }
+        .badge { display: inline-block; background: #10b981; color: white; padding: 0.25rem 0.5rem; border-radius: 4px; font-size: 0.8rem; font-weight: bold; }
+        .feature-list li { background: white; margin-bottom: 1rem; padding: 1rem; border-radius: 6px; border-left: 4px solid #2563eb; }
+        .emoji { font-size: 1.2em; margin-right: 0.5rem; }
+        @media (max-width: 768px) { 
+            .container { padding: 1rem 0.5rem; } 
+            .section { padding: 1.5rem; } 
+            h1 { font-size: 2rem; } 
+            .banner { padding: 1.5rem; }
+        }
+    </style>
+</head>
+<body>
+    <div class="banner">
+        <h1><span class="emoji">🚀</span>Digital Psychological Intervention System</h1>
+        <p style="font-size: 1.2rem; margin-top: 1rem;">Production-Ready Mental Health Support Platform</p>
+        <div style="margin-top: 1rem;">
+            <span class="badge">Full-Stack</span>
+            <span class="badge">Enterprise-Ready</span>
+            <span class="badge">WCAG Compliant</span>
+        </div>
+    </div>
+    
+    <div class="container">
+        <div class="section">
+            <h2><span class="emoji">🎯</span>Complete Mental Health Platform</h2>
+            <p style="font-size: 1.1rem; margin-bottom: 2rem;">A comprehensive, production-ready application designed to provide enterprise-grade mental health support with advanced therapeutic features, security, and accessibility.</p>
+            
+            <h3><span class="emoji">✨</span>Core Features Implemented:</h3>
+            <ul class="feature-list">
+                <li><strong>🤖 AI First-Aid Chat</strong> - Deterministic trigger-based system with real-time crisis detection and safety protocols</li>
+                <li><strong>📊 Clinical Screenings</strong> - PHQ-9 and GAD-7 assessments with automated clinical scoring and interpretation</li>
+                <li><strong>👥 Confidential Booking</strong> - Anonymous counsellor session scheduling with privacy controls</li>
+                <li><strong>📚 Resource Hub</strong> - Multi-language educational content management with engagement tracking</li>
+                <li><strong>🤝 Peer Support</strong> - Moderated community platform with automated content filtering</li>
+                <li><strong>👑 Admin Panel</strong> - Comprehensive analytics dashboard accessible only at <span class="highlight">/admin</span></li>
+            </ul>
+        </div>
+        
+        <div class="section">
+            <h2><span class="emoji">🏗️</span>Technical Architecture</h2>
+            <div class="grid">
+                <div class="card">
+                    <h4>Frontend</h4>
+                    <p>HTML5, CSS3, Vanilla JavaScript<br>
+                    <strong>Features:</strong> WCAG 2.1 Compliant, Mobile Responsive, English/Hindi Support</p>
+                </div>
+                <div class="card">
+                    <h4>Backend</h4>
+                    <p>Node.js + Express.js<br>
+                    <strong>Features:</strong> RESTful API, JWT Authentication, Role-Based Access Control</p>
+                </div>
+                <div class="card">
+                    <h4>Database</h4>
+                    <p>Prisma ORM<br>
+                    <strong>Features:</strong> SQLite (dev) / PostgreSQL (prod), Automated Migrations</p>
+                </div>
+                <div class="card">
+                    <h4>Security</h4>
+                    <p>Enterprise-Grade Protection<br>
+                    <strong>Features:</strong> CSRF Protection, Rate Limiting, Input Sanitization</p>
+                </div>
+            </div>
+        </div>
+        
+        <div class="section">
+            <h2><span class="emoji">🔥</span>Advanced Implementation</h2>
+            
+            <h3><span class="emoji">🧠</span>Intelligent Chat System</h3>
+            <ul>
+                <li><strong>Deterministic Classification:</strong> Consistent categorization (anxiety, depression, stress, crisis)</li>
+                <li><strong>Crisis Detection:</strong> Real-time keyword monitoring with immediate safety protocols</li>
+                <li><strong>Personalized Responses:</strong> Integration with screening history for tailored support</li>
+                <li><strong>Privacy Controls:</strong> Session consent management with complete anonymization options</li>
+            </ul>
+            
+            <h3><span class="emoji">📈</span>Clinical Assessment Suite</h3>
+            <ul>
+                <li><strong>PHQ-9 Depression Screening:</strong> 0-27 scale with clinical severity bands and interpretation</li>
+                <li><strong>GAD-7 Anxiety Screening:</strong> 0-21 scale with automated clinical recommendations</li>
+                <li><strong>Progress Monitoring:</strong> Historical tracking and trend analysis for authenticated users</li>
+                <li><strong>Data Privacy:</strong> Consent-based storage with full anonymization capabilities</li>
+            </ul>
+            
+            <h3><span class="emoji">🛡️</span>Enterprise Security Framework</h3>
+            <ul>
+                <li><strong>Authentication:</strong> JWT with refresh token rotation and secure HttpOnly cookies</li>
+                <li><strong>CSRF Protection:</strong> Double-submit token pattern implementation</li>
+                <li><strong>Role-Based Access:</strong> Four-tier permissions (Student, Counsellor, Moderator, Admin)</li>
+                <li><strong>Anonymous Support:</strong> Complete privacy with anonymous sessions and data handling</li>
+            </ul>
+        </div>
+        
+        <div class="section">
+            <h2><span class="emoji">👑</span>Admin Dashboard (Secure Access)</h2>
+            <p><strong>Access Control:</strong> Hidden route at <span class="highlight">/admin</span> - not visible in navigation, requires admin authentication</p>
+            <ul>
+                <li><strong>📊 Real-time Analytics:</strong> Time-series data, user engagement metrics, screening distributions</li>
+                <li><strong>🔍 Content Moderation:</strong> Automated flagging with comprehensive manual review workflow</li>
+                <li><strong>👤 User Management:</strong> Role assignments, activity monitoring, account lifecycle management</li>
+                <li><strong>⚙️ System Configuration:</strong> Feature toggles, language settings, maintenance mode control</li>
+                <li><strong>🚨 Crisis Monitoring:</strong> Real-time alerts and intervention tracking dashboard</li>
+            </ul>
+        </div>
+        
+        <div class="section">
+            <h2><span class="emoji">🚀</span>Production-Ready Deployment</h2>
+            <p>Everything you need for enterprise deployment:</p>
+            <ul>
+                <li><span class="emoji">✅</span><strong>Comprehensive Testing:</strong> Unit and integration tests with Jest, 80%+ coverage</li>
+                <li><span class="emoji">✅</span><strong>CI/CD Pipeline:</strong> GitHub Actions with automated testing and deployment</li>
+                <li><span class="emoji">✅</span><strong>Containerization:</strong> Complete Docker setup with docker-compose.yml</li>
+                <li><span class="emoji">✅</span><strong>Database Management:</strong> Prisma migrations with comprehensive seeding scripts</li>
+                <li><span class="emoji">✅</span><strong>Environment Management:</strong> Development/staging/production configuration</li>
+                <li><span class="emoji">✅</span><strong>Security Hardening:</strong> Production-ready security middleware and headers</li>
+                <li><span class="emoji">✅</span><strong>Documentation:</strong> Complete API docs, deployment guides, and tutorials</li>
+            </ul>
+            
+            <div style="text-align: center; margin-top: 2rem;">
+                <a href="https://github.com/opsaan/digital-psychological-intervention-system" class="cta">
+                    <span class="emoji">📖</span>View Complete Source Code & Documentation
+                </a>
+            </div>
+        </div>
+        
+        <div class="section">
+            <h2><span class="emoji">⚡</span>Quick Start Guide</h2>
+            <p>Get the full system running locally in minutes:</p>
+            <div class="code">
+git clone https://github.com/opsaan/digital-psychological-intervention-system.git<br>
+cd digital-psychological-intervention-system<br>
+npm install<br>
+cp .env.example .env<br>
+npm run prisma:generate<br>
+npm run prisma:migrate<br>
+npm run prisma:seed<br>
+npm start
+            </div>
+            
+            <h3><span class="emoji">🎯</span>Access Points:</h3>
+            <ul>
+                <li><strong>Main Application:</strong> <span class="highlight">http://localhost:8080</span></li>
+                <li><strong>Admin Dashboard:</strong> <span class="highlight">http://localhost:8080/admin</span> (secure access only)</li>
+            </ul>
+            
+            <h3><span class="emoji">🔑</span>Default Login Credentials:</h3>
+            <ul>
+                <li><strong>System Administrator:</strong> <span class="highlight">admin@example.com</span> / <span class="highlight">Admin123!@#</span></li>
+                <li><strong>Demo User Account:</strong> <span class="highlight">demo@example.com</span> / <span class="highlight">Demo123!@#</span></li>
+            </ul>
+        </div>
+        
+        <div class="section">
+            <h2><span class="emoji">🌍</span>Accessibility & Internationalization</h2>
+            <ul>
+                <li><strong>WCAG 2.1 Compliance:</strong> Full accessibility support with screen reader compatibility</li>
+                <li><strong>Keyboard Navigation:</strong> Complete keyboard-only operation for all features</li>
+                <li><strong>Multi-language Support:</strong> English and Hindi with extensible framework</li>
+                <li><strong>Responsive Design:</strong> Optimized experience across all device sizes</li>
+                <li><strong>Theme Support:</strong> Light and dark modes with system preference detection</li>
+                <li><strong>Crisis Accessibility:</strong> Always-available emergency resources and help buttons</li>
+            </ul>
+        </div>
+        
+        <div class="section">
+            <h2><span class="emoji">🚨</span>Crisis Safety & Intervention System</h2>
+            <ul>
+                <li><strong>Real-time Detection:</strong> Immediate crisis keyword recognition and response</li>
+                <li><strong>Safety Protocols:</strong> Automatic display of emergency resources and contacts</li>
+                <li><strong>Always-Available Help:</strong> Persistent crisis support button across all pages</li>
+                <li><strong>Emergency Integration:</strong> Direct links to crisis helplines and emergency services</li>
+                <li><strong>Safety Planning:</strong> Guided intervention workflows and resource provision</li>
+            </ul>
+            
+            <div class="alert">
+                <strong><span class="emoji">⚠️</span>Important Safety Notice:</strong> This is a comprehensive demonstration system with full crisis detection capabilities. In real mental health emergencies, always contact professional services:<br><br>
+                <strong>🚨 Emergency Services:</strong> 911 (US), 112 (EU), or your local emergency number<br>
+                <strong>📞 Crisis Lifeline:</strong> 988 (US) - National Suicide Prevention Lifeline<br>
+                <strong>💬 Crisis Text Line:</strong> Text HOME to 741741<br>
+                <strong>🇮🇳 India KIRAN:</strong> 1800-599-0019 - Mental Health Helpline
+            </div>
+        </div>
+        
+        <div class="section">
+            <h2><span class="emoji">🛠️</span>Deployment Options</h2>
+            <p>Ready for deployment across multiple platforms:</p>
+            <ul>
+                <li><strong>🐳 Docker:</strong> Complete containerization with production-ready docker-compose.yml</li>
+                <li><strong>☁️ Heroku:</strong> One-click deployment with optimized Procfile configuration</li>
+                <li><strong>🌊 DigitalOcean:</strong> App Platform compatible with automatic scaling</li>
+                <li><strong>☁️ AWS:</strong> Elastic Beanstalk ready with environment configuration</li>
+                <li><strong>🖥️ Self-hosted:</strong> Traditional server deployment with PM2 process management</li>
+            </ul>
+        </div>
+    </div>
+    
+    <div class="footer">
+        <h3><span class="emoji">🏥</span>Digital Psychological Intervention System</h3>
+        <p style="font-size: 1.1rem; margin: 1rem 0;"><strong>Production-ready mental health platform with comprehensive therapeutic features</strong></p>
+        <p style="margin: 1rem 0;">Built with <span style="color: #e53e3e;">❤️</span> for accessible, secure, and effective mental health support</p>
+        
+        <div style="margin: 2rem 0;">
+            <a href="https://github.com/opsaan/digital-psychological-intervention-system" style="color: #2563eb; text-decoration: none; font-weight: bold;">
+                <span class="emoji">📚</span>Complete Documentation & Source Code
+            </a>
+        </div>
+        
+        <p style="font-size: 0.9rem; color: #64748b; margin-top: 2rem; line-height: 1.8;">
+            © 2024 Digital Psychological Intervention System<br>
+            This platform provides general mental health support and education.<br>
+            <strong>Not a substitute for professional medical care, diagnosis, or treatment.</strong><br>
+            Always consult qualified healthcare professionals for medical advice.
+        </p>
+    </div>
+</body>
+</html>
