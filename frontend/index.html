@@ -1,0 +1,258 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Digital Psychological Intervention System</title>
+    <meta name="description" content="Mental health support system with AI first-aid chat, screening tools, and peer support">
+    
+    <!-- Security headers -->
+    <meta http-equiv="Content-Security-Policy" content="default-src 'self'; style-src 'self' 'unsafe-inline'; script-src 'self'; img-src 'self' data: https:; connect-src 'self'; font-src 'self';">
+    
+    <!-- Stylesheets -->
+    <link rel="stylesheet" href="/css/main.css">
+    <link rel="stylesheet" href="/css/components.css">
+    <link rel="stylesheet" href="/css/responsive.css">
+    
+    <!-- Theme support -->
+    <link rel="stylesheet" href="/css/themes/light.css" id="theme-light">
+    <link rel="stylesheet" href="/css/themes/dark.css" id="theme-dark" disabled>
+    
+    <!-- Favicon -->
+    <link rel="icon" type="image/x-icon" href="/favicon.ico">
+    
+    <!-- Accessibility -->
+    <meta name="theme-color" content="#2563eb">
+</head>
+<body>
+    <!-- Skip to main content for accessibility -->
+    <a href="#main-content" class="skip-link" data-i18n="skip_to_main">Skip to main content</a>
+    
+    <!-- Crisis Banner (hidden by default) -->
+    <div id="crisis-banner" class="crisis-banner hidden" role="alert" aria-live="assertive">
+        <div class="crisis-banner-content">
+            <span class="crisis-icon" aria-hidden="true">⚠️</span>
+            <p data-i18n="crisis_banner_text">If you are in immediate danger, please contact emergency services or a crisis helpline right away.</p>
+            <button id="crisis-resources-btn" class="btn btn-crisis" data-i18n="view_crisis_resources">View Crisis Resources</button>
+            <button id="close-crisis-banner" class="btn-close" aria-label="Close crisis banner">×</button>
+        </div>
+    </div>
+    
+    <!-- Header -->
+    <header class="header" role="banner">
+        <nav class="nav-container">
+            <!-- Logo and title -->
+            <div class="nav-brand">
+                <h1 class="site-title">
+                    <a href="/" data-i18n="site_title">Mental Health Support</a>
+                </h1>
+            </div>
+            
+            <!-- Main navigation -->
+            <ul class="nav-menu" role="menubar">
+                <li role="none">
+                    <a href="/" class="nav-link" role="menuitem" data-i18n="nav_home">Home</a>
+                </li>
+                <li role="none">
+                    <a href="/chat" class="nav-link" role="menuitem" data-i18n="nav_chat">First-Aid Chat</a>
+                </li>
+                <li role="none">
+                    <a href="/screenings" class="nav-link" role="menuitem" data-i18n="nav_screenings">Screenings</a>
+                </li>
+                <li role="none">
+                    <a href="/booking" class="nav-link" role="menuitem" data-i18n="nav_booking">Book Session</a>
+                </li>
+                <li role="none">
+                    <a href="/resources" class="nav-link" role="menuitem" data-i18n="nav_resources">Resources</a>
+                </li>
+                <li role="none">
+                    <a href="/peer-support" class="nav-link" role="menuitem" data-i18n="nav_peer_support">Peer Support</a>
+                </li>
+            </ul>
+            
+            <!-- User controls -->
+            <div class="nav-controls">
+                <!-- Language selector -->
+                <div class="language-selector">
+                    <select id="language-select" aria-label="Select language">
+                        <option value="en">English</option>
+                        <option value="hi">हिन्दी</option>
+                    </select>
+                </div>
+                
+                <!-- Theme toggle -->
+                <button id="theme-toggle" class="btn btn-icon" aria-label="Toggle dark mode" title="Toggle theme">
+                    <span class="theme-icon light-icon">☀️</span>
+                    <span class="theme-icon dark-icon hidden">🌙</span>
+                </button>
+                
+                <!-- User menu -->
+                <div class="user-menu">
+                    <div id="auth-section">
+                        <!-- Not authenticated -->
+                        <div id="auth-buttons" class="auth-buttons">
+                            <button id="login-btn" class="btn btn-outline" data-i18n="login">Login</button>
+                            <button id="register-btn" class="btn btn-primary" data-i18n="register">Register</button>
+                        </div>
+                        
+                        <!-- Authenticated -->
+                        <div id="user-profile" class="user-profile hidden">
+                            <button id="profile-menu-btn" class="btn btn-icon profile-btn" aria-expanded="false">
+                                <span id="user-name">User</span>
+                                <span class="dropdown-arrow">▼</span>
+                            </button>
+                            <div id="profile-dropdown" class="dropdown-menu hidden">
+                                <a href="/profile" class="dropdown-item" data-i18n="profile">Profile</a>
+                                <a href="/history" class="dropdown-item" data-i18n="history">My History</a>
+                                <button id="logout-btn" class="dropdown-item" data-i18n="logout">Logout</button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- Mobile menu toggle -->
+                <button id="mobile-menu-toggle" class="btn btn-icon mobile-menu-toggle" aria-label="Toggle mobile menu">
+                    <span class="hamburger"></span>
+                </button>
+            </div>
+        </nav>
+    </header>
+    
+    <!-- Main content -->
+    <main id="main-content" class="main-content" role="main">
+        <!-- Loading indicator -->
+        <div id="loading" class="loading hidden">
+            <div class="spinner"></div>
+            <p data-i18n="loading">Loading...</p>
+        </div>
+        
+        <!-- Home page -->
+        <section id="home-page" class="page page-home">
+            <div class="hero-section">
+                <div class="hero-content">
+                    <h2 class="hero-title" data-i18n="hero_title">Get the mental health support you need</h2>
+                    <p class="hero-description" data-i18n="hero_description">
+                        Access confidential mental health resources, take validated screenings, 
+                        and connect with professional counsellors in a safe, supportive environment.
+                    </p>
+                    <div class="hero-actions">
+                        <button id="start-chat-btn" class="btn btn-primary btn-large" data-i18n="start_chat">Start First-Aid Chat</button>
+                        <button id="take-screening-btn" class="btn btn-outline btn-large" data-i18n="take_screening">Take Screening</button>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="features-section">
+                <div class="features-grid">
+                    <div class="feature-card">
+                        <div class="feature-icon">💬</div>
+                        <h3 data-i18n="feature_chat_title">AI First-Aid Chat</h3>
+                        <p data-i18n="feature_chat_desc">Get immediate support with our intelligent first-aid chat system.</p>
+                    </div>
+                    <div class="feature-card">
+                        <div class="feature-icon">📊</div>
+                        <h3 data-i18n="feature_screening_title">Validated Screenings</h3>
+                        <p data-i18n="feature_screening_desc">Take PHQ-9 and GAD-7 screenings to assess your mental health.</p>
+                    </div>
+                    <div class="feature-card">
+                        <div class="feature-icon">👥</div>
+                        <h3 data-i18n="feature_counselling_title">Professional Counselling</h3>
+                        <p data-i18n="feature_counselling_desc">Book confidential sessions with qualified counsellors.</p>
+                    </div>
+                    <div class="feature-card">
+                        <div class="feature-icon">📚</div>
+                        <h3 data-i18n="feature_resources_title">Educational Resources</h3>
+                        <p data-i18n="feature_resources_desc">Access guides, videos, and tools for mental health education.</p>
+                    </div>
+                    <div class="feature-card">
+                        <div class="feature-icon">🤝</div>
+                        <h3 data-i18n="feature_peer_title">Peer Support</h3>
+                        <p data-i18n="feature_peer_desc">Connect with others in a moderated, supportive community.</p>
+                    </div>
+                    <div class="feature-card">
+                        <div class="feature-icon">🔒</div>
+                        <h3 data-i18n="feature_privacy_title">Privacy & Confidentiality</h3>
+                        <p data-i18n="feature_privacy_desc">Your data is protected with the highest security standards.</p>
+                    </div>
+                </div>
+            </div>
+        </section>
+        
+        <!-- Dynamic content will be loaded here -->
+        <div id="dynamic-content"></div>
+    </main>
+    
+    <!-- Footer -->
+    <footer class="footer" role="contentinfo">
+        <div class="footer-content">
+            <div class="footer-section">
+                <h4 data-i18n="footer_support_title">Support</h4>
+                <ul>
+                    <li><a href="/crisis-resources" data-i18n="footer_crisis_resources">Crisis Resources</a></li>
+                    <li><a href="/helplines" data-i18n="footer_helplines">Helplines</a></li>
+                    <li><a href="/faq" data-i18n="footer_faq">FAQ</a></li>
+                </ul>
+            </div>
+            <div class="footer-section">
+                <h4 data-i18n="footer_about_title">About</h4>
+                <ul>
+                    <li><a href="/about" data-i18n="footer_about">About Us</a></li>
+                    <li><a href="/privacy" data-i18n="footer_privacy">Privacy Policy</a></li>
+                    <li><a href="/terms" data-i18n="footer_terms">Terms of Service</a></li>
+                </ul>
+            </div>
+            <div class="footer-section">
+                <h4 data-i18n="footer_contact_title">Contact</h4>
+                <ul>
+                    <li><a href="mailto:support@example.com" data-i18n="footer_email">Email Support</a></li>
+                    <li><a href="/feedback" data-i18n="footer_feedback">Feedback</a></li>
+                </ul>
+            </div>
+        </div>
+        <div class="footer-bottom">
+            <p data-i18n="footer_disclaimer">
+                This app does not provide medical diagnosis. If you are in immediate danger, seek emergency help.
+            </p>
+            <p>&copy; 2024 Digital Psychological Intervention System. All rights reserved.</p>
+        </div>
+    </footer>
+    
+    <!-- Get Help Now button (persistent) -->
+    <button id="get-help-btn" class="get-help-btn" aria-label="Get immediate help" title="Get Help Now">
+        <span data-i18n="get_help_now">Get Help Now</span>
+    </button>
+    
+    <!-- Modals -->
+    <div id="modal-overlay" class="modal-overlay hidden" role="dialog" aria-hidden="true">
+        <div class="modal-container">
+            <div class="modal-header">
+                <h3 id="modal-title">Modal Title</h3>
+                <button id="modal-close" class="btn-close" aria-label="Close modal">×</button>
+            </div>
+            <div class="modal-body" id="modal-body">
+                <!-- Modal content will be inserted here -->
+            </div>
+            <div class="modal-footer" id="modal-footer">
+                <!-- Modal buttons will be inserted here -->
+            </div>
+        </div>
+    </div>
+    
+    <!-- Toast notifications -->
+    <div id="toast-container" class="toast-container" role="status" aria-live="polite"></div>
+    
+    <!-- Scripts -->
+    <script src="/js/i18n.js"></script>
+    <script src="/js/api.js"></script>
+    <script src="/js/auth.js"></script>
+    <script src="/js/ui.js"></script>
+    <script src="/js/router.js"></script>
+    <script src="/js/chat.js"></script>
+    <script src="/js/screenings.js"></script>
+    <script src="/js/booking.js"></script>
+    <script src="/js/resources.js"></script>
+    <script src="/js/peer.js"></script>
+    <script src="/js/admin.js"></script>
+    <script src="/js/main.js"></script>
+</body>
+</html>
