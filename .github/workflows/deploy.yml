@@ -1,0 +1,264 @@
+name: Deploy to GitHub Pages
+
+on:
+  push:
+    branches: [ main ]
+  workflow_dispatch:
+
+jobs:
+  build-and-deploy:
+    runs-on: ubuntu-latest
+    
+    steps:
+    - name: Checkout
+      uses: actions/checkout@v4
+    
+    - name: Setup Node.js
+      uses: actions/setup-node@v4
+      with:
+        node-version: '20'
+        cache: 'npm'
+    
+    - name: Install dependencies
+      run: npm install
+    
+    - name: Generate static demo
+      run: |
+        mkdir -p dist
+        cp -r frontend/* dist/
+        # Create a simple demo index file
+        cat > dist/index.html << 'EOF'
+        <!DOCTYPE html>
+        <html lang="en">
+        <head>
+            <meta charset="UTF-8">
+            <meta name="viewport" content="width=device-width, initial-scale=1.0">
+            <title>Digital Psychological Intervention System - Demo</title>
+            <meta name="description" content="Production-ready mental health support platform with AI first-aid chat, screening tools, and peer support">
+            <link rel="stylesheet" href="/css/main.css">
+            <link rel="stylesheet" href="/css/components.css">
+            <link rel="stylesheet" href="/css/responsive.css">
+            <style>
+              .demo-banner {
+                background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+                color: white;
+                padding: 1rem;
+                text-align: center;
+                font-weight: bold;
+              }
+              .feature-demo {
+                background: #f8fafc;
+                border: 1px solid #e2e8f0;
+                border-radius: 0.5rem;
+                padding: 1.5rem;
+                margin: 1rem 0;
+              }
+              .demo-section {
+                max-width: 1200px;
+                margin: 0 auto;
+                padding: 2rem 1rem;
+              }
+              .tech-stack {
+                display: grid;
+                grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+                gap: 1rem;
+                margin: 2rem 0;
+              }
+              .tech-item {
+                background: white;
+                padding: 1rem;
+                border-radius: 0.5rem;
+                border: 1px solid #e2e8f0;
+                text-align: center;
+              }
+            </style>
+        </head>
+        <body>
+            <div class="demo-banner">
+                🚀 This is a demonstration of the Digital Psychological Intervention System - A full-stack mental health platform
+            </div>
+            
+            <div class="demo-section">
+                <h1 style="text-align: center; margin-bottom: 2rem;">Digital Psychological Intervention System</h1>
+                
+                <div class="feature-demo">
+                    <h2>🎯 Project Overview</h2>
+                    <p>A production-ready, full-stack mental health support platform that provides:</p>
+                    <ul>
+                        <li><strong>AI First-Aid Chat</strong> - Deterministic trigger-based chat with crisis detection</li>
+                        <li><strong>Validated Screenings</strong> - PHQ-9 and GAD-7 assessments with automated scoring</li>
+                        <li><strong>Confidential Booking</strong> - Anonymous counsellor session scheduling</li>
+                        <li><strong>Resource Hub</strong> - Multi-language educational content</li>
+                        <li><strong>Peer Support</strong> - Moderated community platform</li>
+                        <li><strong>Admin Panel</strong> - Complete analytics and management dashboard</li>
+                    </ul>
+                </div>
+                
+                <div class="feature-demo">
+                    <h2>🏗️ Technical Architecture</h2>
+                    <div class="tech-stack">
+                        <div class="tech-item">
+                            <h4>Frontend</h4>
+                            <p>HTML, CSS, Vanilla JavaScript<br>Responsive & Accessible</p>
+                        </div>
+                        <div class="tech-item">
+                            <h4>Backend</h4>
+                            <p>Node.js, Express<br>RESTful API</p>
+                        </div>
+                        <div class="tech-item">
+                            <h4>Database</h4>
+                            <p>Prisma ORM<br>SQLite/PostgreSQL</p>
+                        </div>
+                        <div class="tech-item">
+                            <h4>Security</h4>
+                            <p>JWT, CSRF Protection<br>Rate Limiting, RBAC</p>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="feature-demo">
+                    <h2>🚀 Key Features Implemented</h2>
+                    
+                    <h3>🤖 Deterministic AI First-Aid Chat</h3>
+                    <ul>
+                        <li>Trigger-based classification system (anxiety, depression, stress, crisis)</li>
+                        <li>Crisis keyword detection with immediate safety protocols</li>
+                        <li>Severity assessment with screening history integration</li>
+                        <li>Multi-language support (English, Hindi)</li>
+                        <li>Session consent management</li>
+                    </ul>
+                    
+                    <h3>📊 Validated Mental Health Screenings</h3>
+                    <ul>
+                        <li><strong>PHQ-9</strong>: Depression screening (0-27 scale)</li>
+                        <li><strong>GAD-7</strong>: Anxiety screening (0-21 scale)</li>
+                        <li>Automated scoring with clinical severity bands</li>
+                        <li>Historical tracking for authenticated users</li>
+                        <li>Consent-based result storage</li>
+                    </ul>
+                    
+                    <h3>👥 Confidential Counselling System</h3>
+                    <ul>
+                        <li>Browse qualified counsellors with availability</li>
+                        <li>Anonymous booking options</li>
+                        <li>Multiple contact preferences (email, phone, in-app)</li>
+                        <li>Status tracking and management</li>
+                    </ul>
+                    
+                    <h3>📚 Educational Resource Hub</h3>
+                    <ul>
+                        <li>Categorized content (videos, audio, guides)</li>
+                        <li>Multi-language support</li>
+                        <li>Engagement tracking and analytics</li>
+                        <li>Content reporting system</li>
+                    </ul>
+                    
+                    <h3>🤝 Moderated Peer Support</h3>
+                    <ul>
+                        <li>Community posts with tagging</li>
+                        <li>Anonymous participation options</li>
+                        <li>Automated content filtering</li>
+                        <li>Comprehensive moderation tools</li>
+                    </ul>
+                    
+                    <h3>🛡️ Security & Privacy</h3>
+                    <ul>
+                        <li>JWT authentication with refresh token rotation</li>
+                        <li>CSRF protection via double-submit tokens</li>
+                        <li>Role-based access control (Student, Counsellor, Moderator, Admin)</li>
+                        <li>Rate limiting and input sanitization</li>
+                        <li>Anonymous session support</li>
+                    </ul>
+                </div>
+                
+                <div class="feature-demo">
+                    <h2>🔧 Admin Panel Features</h2>
+                    <p><strong>Access:</strong> <code>/admin</code> route (hidden from navbar, admin-only)</p>
+                    <ul>
+                        <li><strong>Analytics Dashboard</strong> - Time-series data, user metrics, screening distributions</li>
+                        <li><strong>Content Moderation</strong> - Review reports, manage flagged content</li>
+                        <li><strong>User Management</strong> - Role assignments, account oversight</li>
+                        <li><strong>Counsellor Management</strong> - Add/update counsellor information</li>
+                        <li><strong>System Configuration</strong> - Feature toggles, settings management</li>
+                    </ul>
+                </div>
+                
+                <div class="feature-demo">
+                    <h2>🌍 Internationalization</h2>
+                    <ul>
+                        <li>Full English and Hindi language support</li>
+                        <li>Persistent language preferences</li>
+                        <li>Culturally appropriate content</li>
+                        <li>RTL language framework ready</li>
+                    </ul>
+                </div>
+                
+                <div class="feature-demo">
+                    <h2>📱 Accessibility & UX</h2>
+                    <ul>
+                        <li>WCAG-compliant design</li>
+                        <li>Keyboard navigation support</li>
+                        <li>Screen reader compatible</li>
+                        <li>Mobile-responsive interface</li>
+                        <li>Light/dark theme support</li>
+                        <li>Crisis resources always accessible</li>
+                    </ul>
+                </div>
+                
+                <div class="feature-demo" style="text-align: center;">
+                    <h2>🚀 Ready to Deploy</h2>
+                    <p>Complete with:</p>
+                    <ul style="text-align: left; max-width: 600px; margin: 0 auto;">
+                        <li>Comprehensive test suite</li>
+                        <li>CI/CD pipeline with GitHub Actions</li>
+                        <li>Docker deployment configuration</li>
+                        <li>Production security settings</li>
+                        <li>Database migrations and seeding</li>
+                        <li>Complete documentation</li>
+                    </ul>
+                    
+                    <div style="margin-top: 2rem;">
+                        <a href="https://github.com/opsaan/digital-psychological-intervention-system" 
+                           style="display: inline-block; background: #2563eb; color: white; padding: 1rem 2rem; text-decoration: none; border-radius: 0.5rem; font-weight: bold;">
+                            View Full Source Code on GitHub
+                        </a>
+                    </div>
+                </div>
+                
+                <div class="feature-demo">
+                    <h2>🚨 Crisis Safety Features</h2>
+                    <ul>
+                        <li>Real-time crisis keyword detection</li>
+                        <li>Immediate safety resource display</li>
+                        <li>Always-accessible help button</li>
+                        <li>Emergency contact integration</li>
+                        <li>Safety planning guidance</li>
+                    </ul>
+                    
+                    <div style="background: #fee2e2; border: 1px solid #fca5a5; padding: 1rem; border-radius: 0.5rem; margin-top: 1rem;">
+                        <strong>⚠️ Important:</strong> This is a demonstration system. In emergencies, contact:
+                        <ul>
+                            <li><strong>Emergency Services:</strong> 911 (US), 112 (EU)</li>
+                            <li><strong>Crisis Lifeline:</strong> 988 (US)</li>
+                            <li><strong>Crisis Text Line:</strong> Text HOME to 741741</li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+            
+            <footer style="background: #f8fafc; padding: 2rem; text-align: center; border-top: 1px solid #e2e8f0;">
+                <p><strong>Digital Psychological Intervention System</strong></p>
+                <p>Production-ready mental health platform with comprehensive features</p>
+                <p>© 2024 - Built with ❤️ for mental health accessibility</p>
+                <p><em>This platform provides general support and is not a substitute for professional medical care.</em></p>
+            </footer>
+        </body>
+        </html>
+        EOF
+    
+    - name: Deploy to GitHub Pages
+      uses: peaceiris/actions-gh-pages@v3
+      with:
+        github_token: ${{ secrets.GITHUB_TOKEN }}
+        publish_dir: ./dist
+        cname: digital-psychological-intervention-system.github.io
