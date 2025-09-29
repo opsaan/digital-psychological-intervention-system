@@ -1,0 +1,302 @@
+// This is your Prisma schema file,
+// learn more about it in the docs: https://pris.ly/d/prisma-schema
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "sqlite"
+  url      = env("DATABASE_URL")
+}
+
+model User {
+  id               String   @id @default(cuid())
+  email            String   @unique
+  passwordHash     String
+  name             String?
+  role             Role     @default(STUDENT)
+  preferredLanguage String  @default("en")
+  createdAt        DateTime @default(now())
+  updatedAt        DateTime @updatedAt
+  
+  // Relations
+  chatSessions     ChatSession[]
+  screenings       Screening[]
+  bookings         Booking[]
+  createdResources Resource[] @relation("CreatedBy")
+  peerPosts        PeerPost[]
+  peerComments     PeerComment[]
+  peerReports      PeerReport[]
+  analyticsEvents  AnalyticsEvent[]
+  refreshTokens    RefreshToken[]
+  
+  @@map("users")
+}
+
+model RefreshToken {
+  id        String   @id @default(cuid())
+  token     String   @unique
+  userId    String
+  user      User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+  expiresAt DateTime
+  createdAt DateTime @default(now())
+  
+  @@map("refresh_tokens")
+}
+
+enum Role {
+  STUDENT
+  COUNSELLOR
+  MODERATOR
+  ADMIN
+}
+
+model ChatSession {
+  id           String    @id @default(cuid())
+  userId       String?
+  anonymousId  String?
+  consentToSave Boolean  @default(false)
+  startedAt    DateTime @default(now())
+  endedAt      DateTime?
+  lastCategory String?
+  lastSeverity String?
+  
+  user         User?         @relation(fields: [userId], references: [id], onDelete: Cascade)
+  messages     ChatMessage[]
+  
+  @@map("chat_sessions")
+}
+
+model ChatMessage {
+  id        String      @id @default(cuid())
+  sessionId String
+  sender    MessageSender
+  text      String
+  category  String?
+  severity  String?
+  createdAt DateTime    @default(now())
+  
+  session   ChatSession @relation(fields: [sessionId], references: [id], onDelete: Cascade)
+  
+  @@map("chat_messages")
+}
+
+enum MessageSender {
+  USER
+  BOT
+}
+
+model Screening {
+  id           String       @id @default(cuid())
+  userId       String?
+  anonymousId  String?
+  type         ScreeningType
+  answers      Json
+  score        Int
+  severityBand String
+  consent      Boolean      @default(true)
+  createdAt    DateTime     @default(now())
+  
+  user         User?        @relation(fields: [userId], references: [id], onDelete: Cascade)
+  
+  @@map("screenings")
+}
+
+enum ScreeningType {
+  PHQ9
+  GAD7
+}
+
+model Counsellor {
+  id          String   @id @default(cuid())
+  name        String
+  department  String?
+  officeHours String?
+  room        String?
+  email       String?
+  phone       String?
+  isActive    Boolean  @default(true)
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
+  
+  bookings    Booking[]
+  
+  @@map("counsellors")
+}
+
+model Booking {
+  id               String            @id @default(cuid())
+  userId           String?
+  anonymousId      String?
+  counsellorId     String
+  timeSlot         DateTime
+  contactPreference ContactPreference
+  anonymity        Boolean           @default(false)
+  status           BookingStatus     @default(REQUESTED)
+  notes            String?
+  createdAt        DateTime          @default(now())
+  updatedAt        DateTime          @updatedAt
+  
+  user             User?             @relation(fields: [userId], references: [id], onDelete: Cascade)
+  counsellor       Counsellor        @relation(fields: [counsellorId], references: [id], onDelete: Cascade)
+  
+  @@map("bookings")
+}
+
+enum ContactPreference {
+  EMAIL
+  PHONE
+  IN_APP
+}
+
+enum BookingStatus {
+  REQUESTED
+  CONFIRMED
+  CANCELLED
+}
+
+model Resource {
+  id            String    @id @default(cuid())
+  title         String
+  description   String?
+  language      String    @default("en")
+  type          ResourceType
+  filePath      String?
+  embedUrl      String?
+  createdByUserId String
+  createdAt     DateTime @default(now())
+  isActive      Boolean  @default(true)
+  
+  createdBy     User     @relation("CreatedBy", fields: [createdByUserId], references: [id], onDelete: Cascade)
+  engagements   ResourceEngagement[]
+  
+  @@map("resources")
+}
+
+enum ResourceType {
+  VIDEO
+  AUDIO
+  GUIDE
+}
+
+model ResourceEngagement {
+  id          String              @id @default(cuid())
+  resourceId  String
+  userId      String?
+  anonymousId String?
+  type        EngagementType
+  createdAt   DateTime            @default(now())
+  
+  resource    Resource            @relation(fields: [resourceId], references: [id], onDelete: Cascade)
+  user        User?               @relation(fields: [userId], references: [id], onDelete: Cascade)
+  
+  @@map("resource_engagements")
+}
+
+enum EngagementType {
+  VIEW
+  DOWNLOAD
+  PLAY
+}
+
+model PeerPost {
+  id           String       @id @default(cuid())
+  userId       String?
+  anonymousId  String?
+  displayAlias String?
+  content      String
+  tags         Json         // Array of strings
+  status       ContentStatus @default(PUBLISHED)
+  createdAt    DateTime     @default(now())
+  updatedAt    DateTime     @updatedAt
+  
+  user         User?        @relation(fields: [userId], references: [id], onDelete: Cascade)
+  comments     PeerComment[]
+  reports      PeerReport[] @relation("PostReports")
+  
+  @@map("peer_posts")
+}
+
+model PeerComment {
+  id          String        @id @default(cuid())
+  postId      String
+  userId      String?
+  anonymousId String?
+  content     String
+  status      ContentStatus @default(PUBLISHED)
+  createdAt   DateTime      @default(now())
+  updatedAt   DateTime      @updatedAt
+  
+  post        PeerPost      @relation(fields: [postId], references: [id], onDelete: Cascade)
+  user        User?         @relation(fields: [userId], references: [id], onDelete: Cascade)
+  reports     PeerReport[]  @relation("CommentReports")
+  
+  @@map("peer_comments")
+}
+
+enum ContentStatus {
+  PUBLISHED
+  HIDDEN
+  FLAGGED
+}
+
+model PeerReport {
+  id          String       @id @default(cuid())
+  targetType  ReportTarget
+  targetId    String
+  reason      String
+  userId      String?
+  anonymousId String?
+  status      ReportStatus @default(OPEN)
+  createdAt   DateTime     @default(now())
+  
+  user        User?        @relation(fields: [userId], references: [id], onDelete: Cascade)
+  post        PeerPost?    @relation("PostReports", fields: [targetId], references: [id], onDelete: Cascade)
+  comment     PeerComment? @relation("CommentReports", fields: [targetId], references: [id], onDelete: Cascade)
+  
+  @@map("peer_reports")
+}
+
+enum ReportTarget {
+  POST
+  COMMENT
+}
+
+enum ReportStatus {
+  OPEN
+  REVIEWED
+  DISMISSED
+}
+
+model Helpline {
+  id         String  @id @default(cuid())
+  title      String
+  phone      String
+  campusOnly Boolean @default(false)
+  isActive   Boolean @default(true)
+  createdAt  DateTime @default(now())
+  
+  @@map("helplines")
+}
+
+model AnalyticsEvent {
+  id          String   @id @default(cuid())
+  type        String
+  payload     Json
+  userId      String?
+  anonymousId String?
+  createdAt   DateTime @default(now())
+  
+  user        User?    @relation(fields: [userId], references: [id], onDelete: Cascade)
+  
+  @@map("analytics_events")
+}
+
+model Config {
+  id    String @id @default(cuid())
+  key   String @unique
+  value Json
+  
+  @@map("config")
+}
