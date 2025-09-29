@@ -3,157 +3,515 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Digital Psychological Intervention System - Production Demo</title>
+    <title>Digital Psychological Intervention System - Live Demo</title>
     <meta name="description" content="Production-ready mental health platform with AI-powered features">
+    <link rel="icon" href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 100%22><text y=%22.9em%22 font-size=%2290%22>🏥</text></svg>">
     <style>
         * { box-sizing: border-box; margin: 0; padding: 0; }
-        body { font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif; line-height: 1.6; color: #333; background: #f8fafc; }
-        .banner { background: linear-gradient(135deg, #667eea 0%, #764ba2 100%); color: white; padding: 2rem; text-align: center; }
-        .container { max-width: 1200px; margin: 0 auto; padding: 2rem 1rem; }
-        .section { background: white; margin: 2rem 0; padding: 2rem; border-radius: 12px; box-shadow: 0 4px 12px rgba(0,0,0,0.1); }
-        .grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 1.5rem; margin: 2rem 0; }
-        .card { background: #f8fafc; padding: 1.5rem; border-radius: 8px; border: 1px solid #e2e8f0; transition: transform 0.2s; }
-        .card:hover { transform: translateY(-2px); }
-        .card h4 { color: #2563eb; margin-bottom: 0.5rem; font-size: 1.2rem; }
-        h1 { font-size: 3rem; margin-bottom: 1rem; }
-        h2 { color: #2563eb; margin-bottom: 1.5rem; border-bottom: 3px solid #e2e8f0; padding-bottom: 0.5rem; }
-        h3 { color: #374151; margin: 1.5rem 0 1rem 0; }
-        .cta { display: inline-block; background: #2563eb; color: white; padding: 1rem 2rem; text-decoration: none; border-radius: 8px; font-weight: bold; margin: 1rem 0; transition: background 0.3s; }
-        .cta:hover { background: #1d4ed8; }
-        ul { padding-left: 1.5rem; } 
-        li { margin-bottom: 0.5rem; }
-        .code { background: #1e293b; color: #e2e8f0; padding: 1.5rem; border-radius: 8px; font-family: 'Courier New', monospace; overflow-x: auto; margin: 1rem 0; }
-        .highlight { background: #dbeafe; padding: 0.2rem 0.4rem; border-radius: 4px; font-family: 'Courier New', monospace; font-weight: bold; }
-        .alert { background: #fee2e2; border: 1px solid #fca5a5; padding: 1.5rem; border-radius: 8px; margin: 1rem 0; }
-        .footer { background: #f1f5f9; padding: 3rem; text-align: center; border-top: 1px solid #e2e8f0; margin-top: 3rem; }
-        .badge { display: inline-block; background: #10b981; color: white; padding: 0.25rem 0.5rem; border-radius: 4px; font-size: 0.8rem; font-weight: bold; }
-        .feature-list li { background: white; margin-bottom: 1rem; padding: 1rem; border-radius: 6px; border-left: 4px solid #2563eb; }
-        .emoji { font-size: 1.2em; margin-right: 0.5rem; }
-        @media (max-width: 768px) { 
-            .container { padding: 1rem 0.5rem; } 
-            .section { padding: 1.5rem; } 
-            h1 { font-size: 2rem; } 
-            .banner { padding: 1.5rem; }
+        body { 
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, sans-serif; 
+            line-height: 1.6; 
+            color: #333; 
+            background: linear-gradient(135deg, #f5f7fa 0%, #c3cfe2 100%);
+            min-height: 100vh;
+        }
+        .header { 
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%); 
+            color: white; 
+            padding: 4rem 1rem; 
+            text-align: center; 
+            box-shadow: 0 10px 30px rgba(0,0,0,0.15);
+            position: relative;
+            overflow: hidden;
+        }
+        .header::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: url('data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1000 100" fill="white" opacity="0.1"><path d="M0,0v100h1000V0c-100,0-200,100-500,100S100,0,0,0z"/></svg>') no-repeat bottom;
+            background-size: cover;
+        }
+        .header-content { position: relative; z-index: 1; }
+        .header h1 { 
+            font-size: 3.5rem; 
+            margin-bottom: 1rem; 
+            text-shadow: 0 4px 8px rgba(0,0,0,0.3);
+            font-weight: 700;
+        }
+        .header p { 
+            font-size: 1.4rem; 
+            opacity: 0.95; 
+            margin-bottom: 2rem;
+            font-weight: 300;
+        }
+        .badges { 
+            display: flex; 
+            justify-content: center; 
+            gap: 1rem; 
+            flex-wrap: wrap;
+            margin-top: 2rem;
+        }
+        .badge { 
+            background: rgba(255,255,255,0.2); 
+            padding: 0.7rem 1.5rem; 
+            border-radius: 30px; 
+            font-weight: 600;
+            backdrop-filter: blur(10px);
+            border: 1px solid rgba(255,255,255,0.3);
+            transition: all 0.3s ease;
+        }
+        .badge:hover {
+            background: rgba(255,255,255,0.3);
+            transform: translateY(-2px);
+        }
+        .container { 
+            max-width: 1200px; 
+            margin: 0 auto; 
+            padding: 4rem 1rem;
+        }
+        .hero {
+            background: white;
+            border-radius: 25px;
+            padding: 4rem;
+            margin-bottom: 4rem;
+            box-shadow: 0 20px 40px rgba(0,0,0,0.1);
+            text-align: center;
+            border: 1px solid rgba(255,255,255,0.8);
+        }
+        .hero h2 {
+            color: #2563eb;
+            font-size: 2.8rem;
+            margin-bottom: 1.5rem;
+            font-weight: 700;
+        }
+        .hero p {
+            font-size: 1.3rem;
+            color: #64748b;
+            max-width: 900px;
+            margin: 0 auto 3rem auto;
+            line-height: 1.7;
+        }
+        .hero-stats {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 2rem;
+            margin-top: 3rem;
+        }
+        .stat {
+            text-align: center;
+            padding: 1rem;
+        }
+        .stat-number {
+            font-size: 2.5rem;
+            font-weight: 700;
+            color: #2563eb;
+            display: block;
+        }
+        .stat-label {
+            color: #64748b;
+            font-weight: 500;
+            margin-top: 0.5rem;
+        }
+        .features {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(380px, 1fr));
+            gap: 2.5rem;
+            margin: 4rem 0;
+        }
+        .feature {
+            background: white;
+            padding: 3rem;
+            border-radius: 20px;
+            box-shadow: 0 10px 25px rgba(0,0,0,0.08);
+            transition: all 0.4s ease;
+            border: 1px solid rgba(255,255,255,0.8);
+            position: relative;
+            overflow: hidden;
+        }
+        .feature::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            height: 4px;
+            background: linear-gradient(90deg, #667eea, #764ba2);
+        }
+        .feature:hover {
+            transform: translateY(-10px);
+            box-shadow: 0 25px 50px rgba(0,0,0,0.15);
+        }
+        .feature-icon {
+            font-size: 4rem;
+            margin-bottom: 1.5rem;
+            display: block;
+        }
+        .feature h3 {
+            color: #2563eb;
+            font-size: 1.7rem;
+            margin-bottom: 1.5rem;
+            font-weight: 600;
+        }
+        .feature ul {
+            list-style: none;
+            padding: 0;
+        }
+        .feature li {
+            padding: 0.8rem 0;
+            border-bottom: 1px solid #f8fafc;
+            font-size: 1.05rem;
+            position: relative;
+            padding-left: 1.5rem;
+        }
+        .feature li::before {
+            content: "✓";
+            color: #10b981;
+            font-weight: 700;
+            position: absolute;
+            left: 0;
+            font-size: 1.2rem;
+        }
+        .cta-section {
+            background: linear-gradient(135deg, #2563eb 0%, #1d4ed8 100%);
+            color: white;
+            padding: 4rem;
+            border-radius: 25px;
+            text-align: center;
+            margin: 4rem 0;
+            box-shadow: 0 20px 40px rgba(37, 99, 235, 0.3);
+            position: relative;
+            overflow: hidden;
+        }
+        .cta-section::before {
+            content: '';
+            position: absolute;
+            top: -50%;
+            right: -50%;
+            width: 200%;
+            height: 200%;
+            background: radial-gradient(circle, rgba(255,255,255,0.1) 0%, transparent 70%);
+            animation: float 6s ease-in-out infinite;
+        }
+        @keyframes float {
+            0%, 100% { transform: translate(0, 0) rotate(0deg); }
+            50% { transform: translate(-20px, -20px) rotate(180deg); }
+        }
+        .cta-content { position: relative; z-index: 1; }
+        .cta-section h2 {
+            font-size: 2.5rem;
+            margin-bottom: 1.5rem;
+            font-weight: 700;
+        }
+        .cta-section p {
+            font-size: 1.2rem;
+            opacity: 0.95;
+            margin-bottom: 3rem;
+            max-width: 800px;
+            margin-left: auto;
+            margin-right: auto;
+        }
+        .btn {
+            display: inline-block;
+            background: white;
+            color: #2563eb;
+            padding: 1.2rem 2.5rem;
+            text-decoration: none;
+            border-radius: 15px;
+            font-weight: 700;
+            margin: 0.5rem;
+            transition: all 0.3s ease;
+            box-shadow: 0 5px 15px rgba(255,255,255,0.3);
+            font-size: 1.1rem;
+        }
+        .btn:hover {
+            transform: scale(1.05) translateY(-2px);
+            box-shadow: 0 10px 25px rgba(255,255,255,0.4);
+        }
+        .tech-stack {
+            background: white;
+            padding: 4rem;
+            border-radius: 25px;
+            margin: 4rem 0;
+            box-shadow: 0 15px 30px rgba(0,0,0,0.1);
+        }
+        .tech-stack h2 {
+            text-align: center;
+            color: #2563eb;
+            margin-bottom: 3rem;
+            font-size: 2.5rem;
+            font-weight: 700;
+        }
+        .tech-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 2rem;
+        }
+        .tech-item {
+            text-align: center;
+            padding: 2rem;
+            background: linear-gradient(135deg, #f8fafc 0%, #f1f5f9 100%);
+            border-radius: 15px;
+            border: 2px solid transparent;
+            transition: all 0.4s ease;
+            position: relative;
+        }
+        .tech-item:hover {
+            border-color: #2563eb;
+            transform: translateY(-5px);
+            box-shadow: 0 10px 25px rgba(37, 99, 235, 0.15);
+        }
+        .tech-item h4 {
+            color: #2563eb;
+            font-size: 1.4rem;
+            margin-bottom: 1rem;
+            font-weight: 600;
+        }
+        .quick-start {
+            background: #1e293b;
+            color: white;
+            padding: 4rem;
+            border-radius: 25px;
+            margin: 4rem 0;
+            box-shadow: 0 20px 40px rgba(0,0,0,0.2);
+        }
+        .quick-start h2 {
+            color: #60a5fa;
+            margin-bottom: 2rem;
+            text-align: center;
+            font-size: 2.3rem;
+            font-weight: 700;
+        }
+        .code-block {
+            background: #0f172a;
+            padding: 2rem;
+            border-radius: 15px;
+            font-family: 'SF Mono', 'Monaco', 'Inconsolata', 'Roboto Mono', monospace;
+            overflow-x: auto;
+            margin: 2rem 0;
+            border: 1px solid #334155;
+            box-shadow: inset 0 2px 4px rgba(0,0,0,0.3);
+            font-size: 1.05rem;
+            line-height: 1.6;
+        }
+        .credentials-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 2rem;
+            margin: 2rem 0;
+        }
+        .credential-card {
+            background: #374151;
+            padding: 1.5rem;
+            border-radius: 12px;
+            border-left: 4px solid #60a5fa;
+        }
+        .footer {
+            background: linear-gradient(135deg, #1e293b 0%, #334155 100%);
+            color: white;
+            padding: 4rem 2rem;
+            text-align: center;
+            margin-top: 4rem;
+        }
+        .footer h3 {
+            color: #60a5fa;
+            margin-bottom: 2rem;
+            font-size: 2rem;
+            font-weight: 700;
+        }
+        .warning {
+            background: linear-gradient(135deg, #fef2f2 0%, #fde8e8 100%);
+            border: 2px solid #fca5a5;
+            color: #dc2626;
+            padding: 2rem;
+            border-radius: 15px;
+            margin: 3rem 0;
+            box-shadow: 0 5px 15px rgba(220, 38, 38, 0.1);
+        }
+        .warning strong {
+            font-size: 1.1rem;
+        }
+        .status-indicator {
+            display: inline-flex;
+            align-items: center;
+            gap: 0.5rem;
+            margin: 1rem 0;
+        }
+        .status-dot {
+            width: 12px;
+            height: 12px;
+            border-radius: 50%;
+            background: #10b981;
+            animation: pulse 2s infinite;
+        }
+        @keyframes pulse {
+            0%, 100% { opacity: 1; }
+            50% { opacity: 0.5; }
+        }
+        @media (max-width: 768px) {
+            .header h1 { font-size: 2.5rem; }
+            .header p { font-size: 1.2rem; }
+            .container { padding: 2rem 1rem; }
+            .hero { padding: 2.5rem; }
+            .features { grid-template-columns: 1fr; }
+            .feature { padding: 2rem; }
+            .cta-section { padding: 2.5rem; }
+            .tech-stack { padding: 2.5rem; }
+            .quick-start { padding: 2.5rem; }
         }
     </style>
 </head>
 <body>
-    <div class="banner">
-        <h1><span class="emoji">🚀</span>Digital Psychological Intervention System</h1>
-        <p style="font-size: 1.2rem; margin-top: 1rem;">Production-Ready Mental Health Support Platform</p>
-        <div style="margin-top: 1rem;">
-            <span class="badge">Full-Stack</span>
-            <span class="badge">Enterprise-Ready</span>
-            <span class="badge">WCAG Compliant</span>
+    <div class="header">
+        <div class="header-content">
+            <h1>🚀 Digital Psychological Intervention System</h1>
+            <p>Production-Ready Mental Health Support Platform</p>
+            <div class="status-indicator">
+                <span class="status-dot"></span>
+                <span>Live Demo Available</span>
+            </div>
+            <div class="badges">
+                <span class="badge">🔧 Full-Stack</span>
+                <span class="badge">🤖 AI-Powered</span>
+                <span class="badge">🏢 Enterprise</span>
+                <span class="badge">♿ WCAG 2.1</span>
+                <span class="badge">🔒 Secure</span>
+            </div>
         </div>
     </div>
     
     <div class="container">
-        <div class="section">
-            <h2><span class="emoji">🎯</span>Complete Mental Health Platform</h2>
-            <p style="font-size: 1.1rem; margin-bottom: 2rem;">A comprehensive, production-ready application designed to provide enterprise-grade mental health support with advanced therapeutic features, security, and accessibility.</p>
+        <div class="hero">
+            <h2>🎯 Complete Mental Health Platform</h2>
+            <p>A comprehensive, production-ready application designed to provide enterprise-grade mental health support with advanced therapeutic features, real-time crisis detection, and complete accessibility compliance.</p>
             
-            <h3><span class="emoji">✨</span>Core Features Implemented:</h3>
-            <ul class="feature-list">
-                <li><strong>🤖 AI First-Aid Chat</strong> - Deterministic trigger-based system with real-time crisis detection and safety protocols</li>
-                <li><strong>📊 Clinical Screenings</strong> - PHQ-9 and GAD-7 assessments with automated clinical scoring and interpretation</li>
-                <li><strong>👥 Confidential Booking</strong> - Anonymous counsellor session scheduling with privacy controls</li>
-                <li><strong>📚 Resource Hub</strong> - Multi-language educational content management with engagement tracking</li>
-                <li><strong>🤝 Peer Support</strong> - Moderated community platform with automated content filtering</li>
-                <li><strong>👑 Admin Panel</strong> - Comprehensive analytics dashboard accessible only at <span class="highlight">/admin</span></li>
-            </ul>
-        </div>
-        
-        <div class="section">
-            <h2><span class="emoji">🏗️</span>Technical Architecture</h2>
-            <div class="grid">
-                <div class="card">
-                    <h4>Frontend</h4>
-                    <p>HTML5, CSS3, Vanilla JavaScript<br>
-                    <strong>Features:</strong> WCAG 2.1 Compliant, Mobile Responsive, English/Hindi Support</p>
+            <div class="hero-stats">
+                <div class="stat">
+                    <span class="stat-number">6</span>
+                    <div class="stat-label">Core Modules</div>
                 </div>
-                <div class="card">
-                    <h4>Backend</h4>
-                    <p>Node.js + Express.js<br>
-                    <strong>Features:</strong> RESTful API, JWT Authentication, Role-Based Access Control</p>
+                <div class="stat">
+                    <span class="stat-number">4</span>
+                    <div class="stat-label">User Roles</div>
                 </div>
-                <div class="card">
-                    <h4>Database</h4>
-                    <p>Prisma ORM<br>
-                    <strong>Features:</strong> SQLite (dev) / PostgreSQL (prod), Automated Migrations</p>
+                <div class="stat">
+                    <span class="stat-number">2</span>
+                    <div class="stat-label">Languages</div>
                 </div>
-                <div class="card">
-                    <h4>Security</h4>
-                    <p>Enterprise-Grade Protection<br>
-                    <strong>Features:</strong> CSRF Protection, Rate Limiting, Input Sanitization</p>
+                <div class="stat">
+                    <span class="stat-number">100%</span>
+                    <div class="stat-label">Open Source</div>
                 </div>
             </div>
         </div>
         
-        <div class="section">
-            <h2><span class="emoji">🔥</span>Advanced Implementation</h2>
+        <div class="features">
+            <div class="feature">
+                <span class="feature-icon">🤖</span>
+                <h3>AI First-Aid Chat System</h3>
+                <ul>
+                    <li><strong>Deterministic Responses:</strong> Consistent, trigger-based classification</li>
+                    <li><strong>Crisis Detection:</strong> Real-time keyword monitoring & safety protocols</li>
+                    <li><strong>Multi-language:</strong> Full English and Hindi support</li>
+                    <li><strong>Privacy Controls:</strong> Session consent management</li>
+                    <li><strong>Screening Integration:</strong> Personalized responses based on history</li>
+                </ul>
+            </div>
             
-            <h3><span class="emoji">🧠</span>Intelligent Chat System</h3>
-            <ul>
-                <li><strong>Deterministic Classification:</strong> Consistent categorization (anxiety, depression, stress, crisis)</li>
-                <li><strong>Crisis Detection:</strong> Real-time keyword monitoring with immediate safety protocols</li>
-                <li><strong>Personalized Responses:</strong> Integration with screening history for tailored support</li>
-                <li><strong>Privacy Controls:</strong> Session consent management with complete anonymization options</li>
-            </ul>
+            <div class="feature">
+                <span class="feature-icon">📊</span>
+                <h3>Clinical Assessment Suite</h3>
+                <ul>
+                    <li><strong>PHQ-9 Screening:</strong> Depression assessment (0-27 scale)</li>
+                    <li><strong>GAD-7 Screening:</strong> Anxiety assessment (0-21 scale)</li>
+                    <li><strong>Automated Scoring:</strong> Clinical interpretation & recommendations</li>
+                    <li><strong>Progress Tracking:</strong> Historical analysis for authenticated users</li>
+                    <li><strong>Privacy First:</strong> Consent-based storage with anonymization</li>
+                </ul>
+            </div>
             
-            <h3><span class="emoji">📈</span>Clinical Assessment Suite</h3>
-            <ul>
-                <li><strong>PHQ-9 Depression Screening:</strong> 0-27 scale with clinical severity bands and interpretation</li>
-                <li><strong>GAD-7 Anxiety Screening:</strong> 0-21 scale with automated clinical recommendations</li>
-                <li><strong>Progress Monitoring:</strong> Historical tracking and trend analysis for authenticated users</li>
-                <li><strong>Data Privacy:</strong> Consent-based storage with full anonymization capabilities</li>
-            </ul>
+            <div class="feature">
+                <span class="feature-icon">🛡️</span>
+                <h3>Enterprise Security</h3>
+                <ul>
+                    <li><strong>JWT Authentication:</strong> Refresh token rotation & secure cookies</li>
+                    <li><strong>CSRF Protection:</strong> Double-submit token pattern</li>
+                    <li><strong>Role-Based Access:</strong> 4-tier permissions system</li>
+                    <li><strong>Rate Limiting:</strong> DoS protection & abuse prevention</li>
+                    <li><strong>Anonymous Support:</strong> Complete privacy options</li>
+                </ul>
+            </div>
             
-            <h3><span class="emoji">🛡️</span>Enterprise Security Framework</h3>
-            <ul>
-                <li><strong>Authentication:</strong> JWT with refresh token rotation and secure HttpOnly cookies</li>
-                <li><strong>CSRF Protection:</strong> Double-submit token pattern implementation</li>
-                <li><strong>Role-Based Access:</strong> Four-tier permissions (Student, Counsellor, Moderator, Admin)</li>
-                <li><strong>Anonymous Support:</strong> Complete privacy with anonymous sessions and data handling</li>
-            </ul>
-        </div>
-        
-        <div class="section">
-            <h2><span class="emoji">👑</span>Admin Dashboard (Secure Access)</h2>
-            <p><strong>Access Control:</strong> Hidden route at <span class="highlight">/admin</span> - not visible in navigation, requires admin authentication</p>
-            <ul>
-                <li><strong>📊 Real-time Analytics:</strong> Time-series data, user engagement metrics, screening distributions</li>
-                <li><strong>🔍 Content Moderation:</strong> Automated flagging with comprehensive manual review workflow</li>
-                <li><strong>👤 User Management:</strong> Role assignments, activity monitoring, account lifecycle management</li>
-                <li><strong>⚙️ System Configuration:</strong> Feature toggles, language settings, maintenance mode control</li>
-                <li><strong>🚨 Crisis Monitoring:</strong> Real-time alerts and intervention tracking dashboard</li>
-            </ul>
-        </div>
-        
-        <div class="section">
-            <h2><span class="emoji">🚀</span>Production-Ready Deployment</h2>
-            <p>Everything you need for enterprise deployment:</p>
-            <ul>
-                <li><span class="emoji">✅</span><strong>Comprehensive Testing:</strong> Unit and integration tests with Jest, 80%+ coverage</li>
-                <li><span class="emoji">✅</span><strong>CI/CD Pipeline:</strong> GitHub Actions with automated testing and deployment</li>
-                <li><span class="emoji">✅</span><strong>Containerization:</strong> Complete Docker setup with docker-compose.yml</li>
-                <li><span class="emoji">✅</span><strong>Database Management:</strong> Prisma migrations with comprehensive seeding scripts</li>
-                <li><span class="emoji">✅</span><strong>Environment Management:</strong> Development/staging/production configuration</li>
-                <li><span class="emoji">✅</span><strong>Security Hardening:</strong> Production-ready security middleware and headers</li>
-                <li><span class="emoji">✅</span><strong>Documentation:</strong> Complete API docs, deployment guides, and tutorials</li>
-            </ul>
+            <div class="feature">
+                <span class="feature-icon">👥</span>
+                <h3>Confidential Booking</h3>
+                <ul>
+                    <li><strong>Counsellor Directory:</strong> Browse qualified professionals</li>
+                    <li><strong>Anonymous Options:</strong> Complete privacy protection</li>
+                    <li><strong>Flexible Contact:</strong> Email, phone, or in-app messaging</li>
+                    <li><strong>Status Tracking:</strong> Real-time booking management</li>
+                    <li><strong>Admin Dashboard:</strong> Full oversight and analytics</li>
+                </ul>
+            </div>
             
-            <div style="text-align: center; margin-top: 2rem;">
-                <a href="https://github.com/opsaan/digital-psychological-intervention-system" class="cta">
-                    <span class="emoji">📖</span>View Complete Source Code & Documentation
-                </a>
+            <div class="feature">
+                <span class="feature-icon">📚</span>
+                <h3>Resource Hub & Peer Support</h3>
+                <ul>
+                    <li><strong>Multi-format Content:</strong> Videos, audio guides, documents</li>
+                    <li><strong>Engagement Analytics:</strong> Track views, downloads, usage</li>
+                    <li><strong>Community Platform:</strong> Moderated peer discussions</li>
+                    <li><strong>Content Moderation:</strong> Automated filtering + manual review</li>
+                    <li><strong>Reporting System:</strong> User-driven safety measures</li>
+                </ul>
+            </div>
+            
+            <div class="feature">
+                <span class="feature-icon">👑</span>
+                <h3>Admin Control Center</h3>
+                <ul>
+                    <li><strong>Hidden Access:</strong> Secure /admin route (not in navbar)</li>
+                    <li><strong>Real-time Analytics:</strong> User metrics, engagement data</li>
+                    <li><strong>Crisis Monitoring:</strong> Alert system & intervention tracking</li>
+                    <li><strong>Content Management:</strong> Moderation tools & user oversight</li>
+                    <li><strong>System Config:</strong> Feature toggles & maintenance mode</li>
+                </ul>
             </div>
         </div>
         
-        <div class="section">
-            <h2><span class="emoji">⚡</span>Quick Start Guide</h2>
-            <p>Get the full system running locally in minutes:</p>
-            <div class="code">
+        <div class="tech-stack">
+            <h2>🏗️ Technical Architecture</h2>
+            <div class="tech-grid">
+                <div class="tech-item">
+                    <h4>🎨 Frontend</h4>
+                    <p><strong>Technologies:</strong> HTML5, CSS3, Vanilla JavaScript<br>
+                    <strong>Features:</strong> WCAG 2.1, Responsive Design, Multi-language</p>
+                </div>
+                <div class="tech-item">
+                    <h4>⚙️ Backend</h4>
+                    <p><strong>Technologies:</strong> Node.js, Express.js<br>
+                    <strong>Features:</strong> RESTful API, Middleware, Error Handling</p>
+                </div>
+                <div class="tech-item">
+                    <h4>💾 Database</h4>
+                    <p><strong>Technologies:</strong> Prisma ORM, SQLite/PostgreSQL<br>
+                    <strong>Features:</strong> Migrations, Seeding, Type Safety</p>
+                </div>
+                <div class="tech-item">
+                    <h4>🔐 Security</h4>
+                    <p><strong>Technologies:</strong> JWT, Helmet, bcrypt<br>
+                    <strong>Features:</strong> Authentication, Authorization, Encryption</p>
+                </div>
+            </div>
+        </div>
+        
+        <div class="quick-start">
+            <h2>⚡ Quick Start Guide</h2>
+            <p style="text-align: center; margin-bottom: 3rem; color: #cbd5e1; font-size: 1.1rem;">Get the full system running locally in under 5 minutes:</p>
+            
+            <div class="code-block">
 git clone https://github.com/opsaan/digital-psychological-intervention-system.git<br>
 cd digital-psychological-intervention-system<br>
 npm install<br>
@@ -164,79 +522,69 @@ npm run prisma:seed<br>
 npm start
             </div>
             
-            <h3><span class="emoji">🎯</span>Access Points:</h3>
-            <ul>
-                <li><strong>Main Application:</strong> <span class="highlight">http://localhost:8080</span></li>
-                <li><strong>Admin Dashboard:</strong> <span class="highlight">http://localhost:8080/admin</span> (secure access only)</li>
-            </ul>
+            <h3 style="color: #60a5fa; margin: 3rem 0 2rem 0; text-align: center; font-size: 1.5rem;">🎯 Access Points</h3>
+            <div class="credentials-grid">
+                <div class="credential-card">
+                    <h4 style="color: #60a5fa; margin-bottom: 1rem;">📱 Main Application</h4>
+                    <p><strong>URL:</strong> http://localhost:8080<br>
+                    <strong>Features:</strong> Full platform access</p>
+                </div>
+                <div class="credential-card">
+                    <h4 style="color: #60a5fa; margin-bottom: 1rem;">👑 Admin Panel</h4>
+                    <p><strong>URL:</strong> http://localhost:8080/admin<br>
+                    <strong>Access:</strong> Admin credentials required</p>
+                </div>
+            </div>
             
-            <h3><span class="emoji">🔑</span>Default Login Credentials:</h3>
-            <ul>
-                <li><strong>System Administrator:</strong> <span class="highlight">admin@example.com</span> / <span class="highlight">Admin123!@#</span></li>
-                <li><strong>Demo User Account:</strong> <span class="highlight">demo@example.com</span> / <span class="highlight">Demo123!@#</span></li>
-            </ul>
-        </div>
-        
-        <div class="section">
-            <h2><span class="emoji">🌍</span>Accessibility & Internationalization</h2>
-            <ul>
-                <li><strong>WCAG 2.1 Compliance:</strong> Full accessibility support with screen reader compatibility</li>
-                <li><strong>Keyboard Navigation:</strong> Complete keyboard-only operation for all features</li>
-                <li><strong>Multi-language Support:</strong> English and Hindi with extensible framework</li>
-                <li><strong>Responsive Design:</strong> Optimized experience across all device sizes</li>
-                <li><strong>Theme Support:</strong> Light and dark modes with system preference detection</li>
-                <li><strong>Crisis Accessibility:</strong> Always-available emergency resources and help buttons</li>
-            </ul>
-        </div>
-        
-        <div class="section">
-            <h2><span class="emoji">🚨</span>Crisis Safety & Intervention System</h2>
-            <ul>
-                <li><strong>Real-time Detection:</strong> Immediate crisis keyword recognition and response</li>
-                <li><strong>Safety Protocols:</strong> Automatic display of emergency resources and contacts</li>
-                <li><strong>Always-Available Help:</strong> Persistent crisis support button across all pages</li>
-                <li><strong>Emergency Integration:</strong> Direct links to crisis helplines and emergency services</li>
-                <li><strong>Safety Planning:</strong> Guided intervention workflows and resource provision</li>
-            </ul>
-            
-            <div class="alert">
-                <strong><span class="emoji">⚠️</span>Important Safety Notice:</strong> This is a comprehensive demonstration system with full crisis detection capabilities. In real mental health emergencies, always contact professional services:<br><br>
-                <strong>🚨 Emergency Services:</strong> 911 (US), 112 (EU), or your local emergency number<br>
-                <strong>📞 Crisis Lifeline:</strong> 988 (US) - National Suicide Prevention Lifeline<br>
-                <strong>💬 Crisis Text Line:</strong> Text HOME to 741741<br>
-                <strong>🇮🇳 India KIRAN:</strong> 1800-599-0019 - Mental Health Helpline
+            <h3 style="color: #60a5fa; margin: 3rem 0 2rem 0; text-align: center; font-size: 1.5rem;">🔑 Default Credentials</h3>
+            <div class="credentials-grid">
+                <div class="credential-card">
+                    <h4 style="color: #fbbf24; margin-bottom: 1rem;">👨‍💼 System Administrator</h4>
+                    <p><strong>Email:</strong> admin@example.com<br>
+                    <strong>Password:</strong> Admin123!@#</p>
+                </div>
+                <div class="credential-card">
+                    <h4 style="color: #34d399; margin-bottom: 1rem;">👤 Demo User</h4>
+                    <p><strong>Email:</strong> demo@example.com<br>
+                    <strong>Password:</strong> Demo123!@#</p>
+                </div>
             </div>
         </div>
         
-        <div class="section">
-            <h2><span class="emoji">🛠️</span>Deployment Options</h2>
-            <p>Ready for deployment across multiple platforms:</p>
-            <ul>
-                <li><strong>🐳 Docker:</strong> Complete containerization with production-ready docker-compose.yml</li>
-                <li><strong>☁️ Heroku:</strong> One-click deployment with optimized Procfile configuration</li>
-                <li><strong>🌊 DigitalOcean:</strong> App Platform compatible with automatic scaling</li>
-                <li><strong>☁️ AWS:</strong> Elastic Beanstalk ready with environment configuration</li>
-                <li><strong>🖥️ Self-hosted:</strong> Traditional server deployment with PM2 process management</li>
-            </ul>
+        <div class="cta-section">
+            <div class="cta-content">
+                <h2>🚀 Ready for Production</h2>
+                <p>Complete with comprehensive testing suite, CI/CD pipeline, Docker containerization, and detailed deployment documentation. Everything you need for enterprise-grade mental health platform deployment.</p>
+                <a href="https://github.com/opsaan/digital-psychological-intervention-system" class="btn">📖 Complete Source Code</a>
+                <a href="https://github.com/opsaan/digital-psychological-intervention-system/blob/main/README.md" class="btn">📋 Full Documentation</a>
+            </div>
+        </div>
+        
+        <div class="warning">
+            <strong>⚠️ Important Crisis Safety Notice:</strong> This is a comprehensive demonstration system with full crisis detection capabilities. The platform includes real-time keyword monitoring and safety protocols. In actual mental health emergencies, always contact professional services immediately:<br><br>
+            <strong>🚨 Emergency Services:</strong> 911 (US), 112 (EU), or your local emergency number<br>
+            <strong>📞 Crisis Lifeline:</strong> 988 (US) - National Suicide Prevention Lifeline<br>
+            <strong>💬 Crisis Text Line:</strong> Text HOME to 741741<br>
+            <strong>🇮🇳 India KIRAN:</strong> 1800-599-0019 - Mental Health Helpline
         </div>
     </div>
     
     <div class="footer">
-        <h3><span class="emoji">🏥</span>Digital Psychological Intervention System</h3>
-        <p style="font-size: 1.1rem; margin: 1rem 0;"><strong>Production-ready mental health platform with comprehensive therapeutic features</strong></p>
-        <p style="margin: 1rem 0;">Built with <span style="color: #e53e3e;">❤️</span> for accessible, secure, and effective mental health support</p>
+        <h3>🏥 Digital Psychological Intervention System</h3>
+        <p style="font-size: 1.2rem; margin: 2rem 0; max-width: 800px; margin-left: auto; margin-right: auto;">Production-ready mental health platform with comprehensive therapeutic features, enterprise security, and complete accessibility compliance</p>
+        <p style="margin: 2rem 0;">Built with ❤️ for accessible, secure, and effective mental health support worldwide</p>
         
-        <div style="margin: 2rem 0;">
-            <a href="https://github.com/opsaan/digital-psychological-intervention-system" style="color: #2563eb; text-decoration: none; font-weight: bold;">
-                <span class="emoji">📚</span>Complete Documentation & Source Code
+        <div style="margin: 3rem 0; padding: 2rem; background: rgba(96, 165, 250, 0.1); border-radius: 15px; max-width: 600px; margin-left: auto; margin-right: auto;">
+            <a href="https://github.com/opsaan/digital-psychological-intervention-system" style="color: #60a5fa; text-decoration: none; font-weight: bold; font-size: 1.1rem;">
+                🔗 Complete Documentation & Source Code
             </a>
         </div>
         
-        <p style="font-size: 0.9rem; color: #64748b; margin-top: 2rem; line-height: 1.8;">
-            © 2024 Digital Psychological Intervention System<br>
-            This platform provides general mental health support and education.<br>
-            <strong>Not a substitute for professional medical care, diagnosis, or treatment.</strong><br>
-            Always consult qualified healthcare professionals for medical advice.
+        <p style="font-size: 0.95rem; color: #94a3b8; margin-top: 3rem; line-height: 1.8; max-width: 700px; margin-left: auto; margin-right: auto;">
+            © 2024 Digital Psychological Intervention System Project<br>
+            This platform provides general mental health support and educational resources.<br>
+            <strong>Not intended as a substitute for professional medical care, diagnosis, or treatment.</strong><br>
+            Always consult qualified healthcare professionals for personalized medical advice and treatment.
         </p>
     </div>
 </body>
